@@ -1,0 +1,170 @@
+/** Variaveis que vêm do mundo HTML e assim utilizando o DOM nivel 2,
+ * poder assim manipula-las no mundo JavaScript. Criei elas fora da função, no escopo globol,
+ * assim posso usa-las em qualquer parte do codigo.
+ */
+let $btn2   = document.getElementById('btnBaixar');
+let $dica   = document.getElementById('paragrafo');
+let $imagem = document.getElementById('imagem');
+
+   
+/** Criei uma função auto-invocavel, para que podesse excecutar todo o codido dentro dela, assim
+* organizaria melhor o código no meu ponto de vista. Dentro dela pude manipular as variaveis que 
+* vieram do mundo HTML e também algumas que criei para manipulpar também o Drag and Drop.
+*/
+  (function(){
+        'use strict';
+        
+        $dica.addEventListener('click', function(event){
+           event.stopPropagation();
+           window.open('https://drive.google.com/file/d/1mzo2vOi_y2QorVCNk2stRGymUZwfUbQi/view');
+        });
+
+                // Criação da nossa "classe" de controle.
+                // Não entrarei neste detalhe aqui, mas por favor,
+                // se você ouvir alguém falar que javascript é uma
+                // linguagem orientada a objetos, no mínimo, não
+                // acredite nele. Javascript é uma linguagem prototipada.
+                // Essa maneira de programar javascript é uma preferencia
+                // minha. Prefiro este estilo a criar várias funções perdidas.
+                function FileFrame(fileArea, fileTitle) {
+                  //debugger;
+                    var self = this;
+                  
+                    this.fileArea = fileArea;
+                    this.fileTitle = fileTitle;
+                  
+                    this.init = function() {
+                      // Registrando eventos de drag and drop
+                      self.fileArea.addEventListener("dragleave", self.dragHover, false);
+                      self.fileArea.addEventListener("dragover", self.dragHover, false);
+                      self.fileArea.addEventListener("drop", self.drop, false);
+                  
+                    };
+                  
+                    this.dragHover = function(e) {
+                      // Impede possíveis tratamentos dos arquivos
+                      // arrastados pelo navegador, por exemplo, exibir
+                      // o conteudo do mesmo.
+                      e.stopPropagation();  
+                      e.preventDefault();  
+                  
+                      // Quando o arquivo está sobre área alteramos o seu estilo
+                      self.fileArea.className = (e.type == "dragover" ? "hover" : "");  
+                    };
+                  
+                    this.drop = function(e) {
+                      self.dragHover(e);  
+                  
+                      // Volta um array com os arquivos arratados,
+                      // porém neste exemplo iremos tratar apenas
+                      // o primeiro arquivo
+                      self.file = e.dataTransfer.files[0];  
+                    
+                      // Recupera nome do arquivo
+                      self.fileTitle.innerHTML = self.file.name;
+                  
+                  
+                      self.read(self.file);
+                      
+                      // Neste ponto podemos implementar uma função para
+                      // enviar os arquivos via ajax.
+                      // Irei deixar um exemplo, qualquer dúvida eu peço
+                      // que utilize o sistema de comentários do site.
+                      /*
+                      self.sendFile(self.file);
+                      */
+                    };
+                  
+                    // Esse método irá ler o arquivo na memória,
+                    // depois iremos mostrá-lo no nosso frame
+                    this.read = function(file) {
+                      // Iremos ler apenas imagens nesse exemplo
+                      // e iremos exibi-lo no frame
+                      if (file.type.match('image.*')) {
+                        var reader = new FileReader();
+                  
+                        // Callback que será executado após a leitura do arquivo
+                        reader.onload = function(f) {
+                          self.fileArea.innerHTML = "";
+                          self.fileArea.setAttribute("style", "padding: 0px !important;");
+                          
+                          // Criação do elemento que será utilizado para exibir a imagem
+                          var img = document.createElement("img");
+                          img.setAttribute("src", f.target.result);
+                          img.setAttribute("height", "350");
+                  
+                          self.fileArea.appendChild(img);
+                        }
+                  
+                        // Irá ler o arquivo para ser acessado através de uma url
+                        reader.readAsDataURL(file);
+                      }
+                    }
+                  
+                    // Essa função pode ser utilizada como 
+                    this.sendFile = function(file) {
+                  
+                      // Criaremos um formulário
+                      var f = new FormData();
+                      // Passando o arquivo para o formulário
+                      f.append("file", file);
+                  
+                      // Chamada async para realizar o upload da imagem
+                      var request = new XMLHttpRequest();
+                      request.open("POST", "", true);
+                      request.send(f);
+                      request.onreadystatechange=function(){
+                        // Término do envio do formulário
+                        if(request.readyState==4) {
+                        }
+                      }
+                    };
+                }
+                  
+          // Recupera a div que conterá a imagem
+          // e o span com o título de nosso arquivo
+          
+          var area = document.getElementById("image-area");
+          console.log(area);
+          var title = document.getElementById("title");
+          console.log(title);
+          
+          var fileFrameArea = new FileFrame(area, title);
+          fileFrameArea.init();
+
+          
+          /**
+           * Botão responsavel por fazer o download do cracha.
+           * 
+           */
+          $btn2.addEventListener('click', function(event){
+            event.stopPropagation();
+  
+            /*if(!area.attributes.idownerElement){
+              alert('Campo não esta preenchido! Arraste a imagem até o campo!');
+            }*/
+
+            if(area.innerHTML != null){
+              alert('Campo não esta preenchido! Arraste a imagem até o campo!');
+            }
+            else {
+              
+              alert('Deseja baixar o Crachá?');
+
+            }
+            /**Ação inultilizada!*/
+            
+            //dropFileForm = targetElement.ondrag;
+            
+          }) 
+         
+          function mudarLink() {
+            btnBaixar.href = "area";
+            btnBaixar.innerHTML = "Baixar imagem Stack Exchange";
+          }
+          //<button onclick="mudarLink()">Mude o Link</button>
+          // <a id="baixar" href="http://cdn.sstatic.net/br/img/sprites.svg?v=e26b234630f5" download>Baixar imagem Stack Overflow</a>
+          
+          //});
+        
+    })();
