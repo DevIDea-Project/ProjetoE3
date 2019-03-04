@@ -2,18 +2,37 @@
 <html>
     <head>
         <title> Projeto Estagio Even </title>
+        
+        <!--Padrão que suporta os navegadores, caso contrario pode aparecer caracteres especiais
+        no lugar de letras. Exemplo: Se eu colocar a palavra, profisão... No lugar do (ã) ele pode
+        pode aparecer um $.-->
         <meta charset="utf-8">
+        
+        <!--Para trabalhar com o FrameWork bootstrap e dizer o caminho da pasta que ele esta.-->
         <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="css/style.css">
     </head>
     <body>
+        <!-- Esta tag div class wrap, criei para evitar a scholagem que a pagina faz para direita,
+        quando vamos adicionando componentes html na pagina-->
         <div class="wrap">
+
+            <!--1 - H1 para criar o primeiro nome na tela. 2 - label apenas para direcionar o usuario para 
+            implementar os templates. 3 - este p(paragrafo) coloquei uma ação nele para ao clicar 
+            nele direcionar para uma pagina onde ficará os templates.-->
             <h1> 1 - Criar Modelo </h1>
             <label id="label" type="button" alt="botao"> Anexar Imagem ao fundo: </label>
-            <p class="p" id="paragrafo"> Dica: Templates. Clique!</p>
+            <p class="p" id="paragrafo"> Templates: Clique aqui!</p>
+            
+            <!-- 1- As classes = header-black e container como padrão bootStrap. 
+             2 - Depois criei uma div(head) onde contive todos os outros componentes:
+             2.1 - H2 Com um importar participantes, 2.2 - H3 Para ficar como cabeçalho de um form,
+             2.3 - Dentro criei outras divs, para example-content, frame, drop-message, icon, arraste
+             contendo também uma span. Dentro desta div interna está a funcionalidade do drag end drop
+             que excuta a função de arraste e soltar uma imagem dentro do campo pre-selecionado na 
+             aplicação.-->
             <header>
-
                 <div class="header-black">
                     <div class="container">
 
@@ -34,33 +53,41 @@
                                 </span>
                       
                             </div>
-                      
+                              <!-- Campo importante, nele a imagem é fixada no campo. Aconte
+                               uma substituição-->
                               <span id="title">  </span>
                         </div>
                       
                     </div>
-
+                       
+                    <!-- Tag form onde coloquei um textArea para fazer a função de copiar e colar
+                    a planilha em Excel, e assim poder saber quem são os participantes do evento-->
                     <form class="formulario", id="formulario">
                         <textarea id="txt">
                             
                         </textarea>
                     </form>
-
+                    
+                    <!--Aqui coloquei um botão que servirá para fazer a função do dowload do crachá-->
                     <h4> 3 - Baixar </h4>
-                    <button type="button" id="btnBaixar" download> Baixar Crachás </button>
+                    <button type="button" id="btnBaixar"> Baixar Crachás </button>
 
                 </div>
             </header>
         </div>
 
+        <!--Aqui é a conexão do meu arquivo Javascript para que eu possa atrávez do 
+        DOM manipular e assim criar as funcionalidades.-->
         <script type="text/javascript" src="js/index.js">
         
         </script>
 
+        <!--Para trabalhar com o FrameWork Jquery e dizer o caminho da pasta que ele esta.-->
         <script src="lib/jquery/jquery.min.js">
         
         </script> 
         
+        <!--Para trabalhar com o FrameWork bootstrap e dizer o caminho da pasta que ele esta.-->
         <script src="lib/bootstrap/js/bootstrap.min.js">
         
         </script>
